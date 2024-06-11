@@ -2176,5 +2176,13 @@ namespace papacy1
                 setTabVisible(menuItem);
             }
         }
+
+        private void 大小裝箱明細ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (sender is ToolStripMenuItem menuItem)
+            {
+                setTabVisible(menuItem);
+            }
+        }
     }
 }
