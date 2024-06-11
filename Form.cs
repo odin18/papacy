@@ -7,6 +7,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Printing;
 using System.Management;
+using System.Collections.Generic;
 
 namespace papacy1
 {
@@ -20,6 +21,9 @@ namespace papacy1
         private int copies;
         private int SameCNOcopies;
         private bool isUpdating = false;
+        private List<TabPage> _allTabControl = new List<TabPage>();
+
+
         //出bug解決方法 https://www.796t.com/content/1547133874.html
         public papacy()
         {
@@ -70,8 +74,6 @@ namespace papacy1
                 MessageBox.Show("請安裝正確的BarTender");
             }
 
-            // 將tabControl的當前選定標籤頁設定為tabPage8
-            tabControl.SelectedTab = tabPage8;
             MD1_CBX_CNO.Text = "3";
             MD2_CBX_CNO.Text = "4";
             MD3_CBX_CNO.Text = "3";
@@ -79,6 +81,16 @@ namespace papacy1
             MD5_CBX_CNO.Text = "3";
             MD6_CBX_CNO.Text = "3";
             MD7_CBX_CNO.Text = "3";
+
+            foreach(TabPage page in tabControl.TabPages)
+            {
+                _allTabControl.Add(page);
+            }
+
+            tabControl.TabPages.Clear();
+
+            // 將tabControl的當前選定標籤頁設定為tabPage8
+            tabControl.TabPages.Add(_allTabControl.Where(x => x.Text == "列印設定").First());
         }
         private void LoadPrinters()
         {
@@ -2079,6 +2091,90 @@ namespace papacy1
         private void PrintQuantitynumericUpDown7_ValueChanged(object sender, EventArgs e)
         {
             copies = (int)PrintQuantitynumericUpDown7.Value;
+        }
+
+        
+
+        private void setTabVisible(ToolStripMenuItem menuItem)
+        {
+            tabControl.Visible = true;
+            
+            string currentMenuItemName = menuItem.Text;
+
+            tabControl.TabPages.Clear();
+
+            foreach (TabPage tabPage in _allTabControl)
+            {
+                if (tabPage.Text == currentMenuItemName)
+                {
+                    tabControl.TabPages.Add(tabPage);
+                }
+            }
+        }
+
+        private void 模板1ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // 确保 sender 是一个 ToolStripMenuItem
+            if (sender is ToolStripMenuItem menuItem)
+            {
+                setTabVisible(menuItem);
+            }
+        }
+
+        private void 模板2ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (sender is ToolStripMenuItem menuItem)
+            {
+                setTabVisible(menuItem);
+            }
+        }
+
+        private void 模板3ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (sender is ToolStripMenuItem menuItem)
+            {
+                setTabVisible(menuItem);
+            }
+        }
+
+        private void 模板4ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (sender is ToolStripMenuItem menuItem)
+            {
+                setTabVisible(menuItem);
+            }
+        }
+
+        private void 模板5ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (sender is ToolStripMenuItem menuItem)
+            {
+                setTabVisible(menuItem);
+            }
+        }
+
+        private void 模板6ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (sender is ToolStripMenuItem menuItem)
+            {
+                setTabVisible(menuItem);
+            }
+        }
+
+        private void 模板7ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (sender is ToolStripMenuItem menuItem)
+            {
+                setTabVisible(menuItem);
+            }
+        }
+
+        private void 列印設定ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (sender is ToolStripMenuItem menuItem)
+            {
+                setTabVisible(menuItem);
+            }
         }
     }
 }
