@@ -8,6 +8,8 @@ using System.Windows.Forms;
 using System.Printing;
 using System.Management;
 using System.Collections.Generic;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Reflection;
 
 namespace papacy1
 {
@@ -22,7 +24,17 @@ namespace papacy1
         private int SameCNOcopies;
         private bool isUpdating = false;
         private List<TabPage> _allTabControl = new List<TabPage>();
-
+        // 模板名稱對應
+        private Dictionary<string, string> templateNameMap = new Dictionary<string, string>()
+        {
+            {"模板1", "TemplateName1"},
+            {"模板2", "TemplateName2"},
+            {"模板3", "TemplateName3"},
+            {"模板4", "TemplateName4"},
+            {"模板5", "TemplateName5"},
+            {"模板6", "TemplateName6"},
+            {"模板7", "TemplateName7"},
+        };
 
         //出bug解決方法 https://www.796t.com/content/1547133874.html
         public papacy()
@@ -82,15 +94,18 @@ namespace papacy1
             MD6_CBX_CNO.Text = "3";
             MD7_CBX_CNO.Text = "3";
 
-            foreach(TabPage page in tabControl.TabPages)
-            {
-                _allTabControl.Add(page);
-            }
+            // 把目前 Form 上的 tabControl 全部的 tabpage 儲存
+            _allTabControl.AddRange(tabControl.TabPages.Cast<TabPage>());
 
             tabControl.TabPages.Clear();
 
-            // 將tabControl的當前選定標籤頁設定為tabPage8
-            tabControl.TabPages.Add(_allTabControl.Where(x => x.Text == "列印設定").First());
+            // 將 tabControl 的當前選定標籤頁設定為tabPage8
+            tabControl.TabPages.Add(tabPage8);
+            // 列印設定的下拉跳預設值
+            templateName_comboBox.SelectedIndex = 0;
+
+            //// 初始化 TextBox 的值為當前設定
+            //templateName_textBox.Text = Properties.Settings.Default.TemplateName1;
         }
         private void LoadPrinters()
         {
@@ -235,7 +250,7 @@ namespace papacy1
                     var settingValue = Properties.Settings.Default[settingName];
                     if (settingValue != null && !string.IsNullOrEmpty(settingValue.ToString()))
                     {
-                        var textBox = this.Controls.Find(propertyName, true).FirstOrDefault() as TextBox;
+                        var textBox = this.Controls.Find(propertyName, true).FirstOrDefault() as System.Windows.Forms.TextBox;
                         if (textBox != null)
                         {
                             textBox.Text = settingValue.ToString();
@@ -264,7 +279,7 @@ namespace papacy1
             }
 
             // 設置每個控件的Tag屬性，用於後續的尺寸和位置調整
-            SetTags(this);
+            //SetTags(this);
 
         }
 
@@ -596,14 +611,22 @@ namespace papacy1
                 NWunitcomboBox.SelectedItem = GWunitcomboBox.SelectedItem;
             }
         }
+
+        // 封裝尋找ComboBox的邏輯
+        private System.Windows.Forms.ComboBox FindComboBox(string name, int page)
+        {
+            return tabControl.TabPages[page - 1].Controls[name + page] as System.Windows.Forms.ComboBox;
+        }
+
         private void NWComboBoxUnits(int page)
         {
             // 找到指定頁面中的GWunitcomboBox和NWunitcomboBox
-            System.Windows.Forms.ComboBox GWunitcomboBox = (System.Windows.Forms.ComboBox)tabControl.TabPages[page - 1].Controls["GWunitcomboBox" + page];
-            System.Windows.Forms.ComboBox NWunitcomboBox = (System.Windows.Forms.ComboBox)tabControl.TabPages[page - 1].Controls["NWunitcomboBox" + page];
+            System.Windows.Forms.ComboBox GWunitcomboBox = FindComboBox("GWunitcomboBox", page);// (System.Windows.Forms.ComboBox)tabControl.TabPages[page - 1].Controls["GWunitcomboBox" + page];
+            System.Windows.Forms.ComboBox NWunitcomboBox = FindComboBox("NWunitcomboBox", page);// (System.Windows.Forms.ComboBox)tabControl.TabPages[page - 1].Controls["NWunitcomboBox" + page];
 
-            // 若NWunitcomboBox有選中項且GWunitcomboBox沒有選中項，則將NWunitcomboBox的選中項設為GWunitcomboBox的選中項
-            if (NWunitcomboBox.SelectedIndex != -1 && GWunitcomboBox.SelectedIndex == -1)
+            // 有可能初始化不存在, 需要判斷是否為 null
+            // 使用?.操作符來簡化null檢查和條件判斷
+            if (NWunitcomboBox?.SelectedIndex != -1 && GWunitcomboBox?.SelectedIndex == -1)
             {
                 GWunitcomboBox.SelectedItem = NWunitcomboBox.SelectedItem;
             }
@@ -2093,8 +2116,10 @@ namespace papacy1
             copies = (int)PrintQuantitynumericUpDown7.Value;
         }
 
-        
-
+        /// <summary>
+        /// 設定 Tab 顯示
+        /// </summary>
+        /// <param name="menuItem"></param>
         private void setTabVisible(ToolStripMenuItem menuItem)
         {
             tabControl.Visible = true;
@@ -2103,13 +2128,55 @@ namespace papacy1
 
             tabControl.TabPages.Clear();
 
-            foreach (TabPage tabPage in _allTabControl)
+            var selectTab = _allTabControl.FirstOrDefault(x => x.Text == currentMenuItemName);
+
+            if(selectTab != null)
             {
-                if (tabPage.Text == currentMenuItemName)
+                tabControl.TabPages.Add(selectTab);
+
+                // 設定 LOTtextBoxes 的初始值
+                for (int i = 1; i <= 7; i++)
                 {
-                    tabControl.TabPages.Add(tabPage);
+                    if (i != 3) // 跳過3
+                    {
+                        string settingName = $"LOTNum{i}";
+                        string propertyName = $"LOTtextBox{i}";
+                        var settingValue = Properties.Settings.Default[settingName];
+                        if (settingValue != null && !string.IsNullOrEmpty(settingValue.ToString()))
+                        {
+                            var textBox = this.Controls.Find(propertyName, true).FirstOrDefault() as System.Windows.Forms.TextBox;
+                            if (textBox != null)
+                            {
+                                textBox.Text = settingValue.ToString();
+                            }
+                        }
+                    }
                 }
+
+                // 設定 OrigintextBox 和 EndtextBox
+                for (int i = 0; i < tabControl.TabPages.Count; i++)
+                {
+                    System.Windows.Forms.TextBox originTextBox = (System.Windows.Forms.TextBox)tabControl.TabPages[i].Controls["OrigintextBox" + (i + 1)];
+                    System.Windows.Forms.TextBox endTextBox = (System.Windows.Forms.TextBox)tabControl.TabPages[i].Controls["EndtextBox" + (i + 1)];
+
+                    if (originTextBox != null)
+                    {
+                        originTextBox.Text = "MADE IN";
+                        originTextBox.ForeColor = SystemColors.GrayText;
+                        originTextBox.TextAlign = HorizontalAlignment.Left;
+                    }
+
+                    if (endTextBox != null)
+                    {
+                        endTextBox.ForeColor = SystemColors.WindowText;
+                    }
+                }
+
+                // 設置每個控件的Tag屬性，用於後續的尺寸和位置調整
+                SetTags(this);
             }
+
+
         }
 
         private void 模板1ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2182,6 +2249,57 @@ namespace papacy1
             if (sender is ToolStripMenuItem menuItem)
             {
                 setTabVisible(menuItem);
+            }
+        }
+
+        private void UpdateSettings(string templateName, string newValue)
+        {
+            if (templateNameMap.TryGetValue(templateName, out string propertyName))
+            {
+                // 使用反射來找到對應的設定屬性並更新其值
+                PropertyInfo propertyInfo = typeof(Properties.Settings).GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance);
+                if (propertyInfo != null)
+                {
+                    propertyInfo.SetValue(Properties.Settings.Default, newValue, null);
+                    Properties.Settings.Default.Save(); // 儲存更新後的設定
+                }
+                else
+                {
+                    // 處理屬性不存在的情況
+                    Console.WriteLine($"Property {propertyName} not found.");
+                }
+            }
+            else
+            {
+                // 處理模板名稱不在字典中的情況
+                Console.WriteLine($"Template name {templateName} not found in the map.");
+            }
+        }
+
+        private void templateName_SaveBtn_Click(object sender, EventArgs e)
+        {
+            string selected = templateName_comboBox.SelectedItem.ToString();
+
+            UpdateSettings(selected, templateName_textBox.Text);
+
+            // 提示儲存成功
+            MessageBox.Show("設定已儲存。");
+        }
+
+        private void templateName_comboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string selected = templateName_comboBox.SelectedItem.ToString();
+
+            // 從字典中查找對應的設定值並更新textBox
+            if (templateNameMap.ContainsKey(selected))
+            {
+                string propertyName = templateNameMap[selected];
+                // 使用反射來找到對應的設定屬性並更新其值
+                PropertyInfo propertyInfo = typeof(Properties.Settings).GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance);
+
+                // 因為這些屬性屬於Properties.Settings.Default，所以需要傳入這個實例來獲取值
+                string value = (string)propertyInfo.GetValue(Properties.Settings.Default, null);
+                templateName_textBox.Text = value;
             }
         }
     }

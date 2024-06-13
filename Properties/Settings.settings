@@ -26,5 +26,26 @@
     <Setting Name="LOTNum7" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="TemplateName1" Type="System.String" Scope="User">
+      <Value Profile="(Default)">模板1</Value>
+    </Setting>
+    <Setting Name="TemplateName2" Type="System.String" Scope="User">
+      <Value Profile="(Default)">模板2</Value>
+    </Setting>
+    <Setting Name="TemplateName3" Type="System.String" Scope="User">
+      <Value Profile="(Default)">模板3</Value>
+    </Setting>
+    <Setting Name="TemplateName4" Type="System.String" Scope="User">
+      <Value Profile="(Default)">模板4</Value>
+    </Setting>
+    <Setting Name="TemplateName5" Type="System.String" Scope="User">
+      <Value Profile="(Default)">模板5</Value>
+    </Setting>
+    <Setting Name="TemplateName6" Type="System.String" Scope="User">
+      <Value Profile="(Default)">模板6</Value>
+    </Setting>
+    <Setting Name="TemplateName7" Type="System.String" Scope="User">
+      <Value Profile="(Default)">模板7</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

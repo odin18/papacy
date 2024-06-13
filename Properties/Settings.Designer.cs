@@ -12,7 +12,7 @@ namespace papacy1.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.7.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.10.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -116,6 +116,90 @@ namespace papacy1.Properties {
             }
             set {
                 this["LOTNum7"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("模板1")]
+        public string TemplateName1 {
+            get {
+                return ((string)(this["TemplateName1"]));
+            }
+            set {
+                this["TemplateName1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("模板2")]
+        public string TemplateName2 {
+            get {
+                return ((string)(this["TemplateName2"]));
+            }
+            set {
+                this["TemplateName2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("模板3")]
+        public string TemplateName3 {
+            get {
+                return ((string)(this["TemplateName3"]));
+            }
+            set {
+                this["TemplateName3"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("模板4")]
+        public string TemplateName4 {
+            get {
+                return ((string)(this["TemplateName4"]));
+            }
+            set {
+                this["TemplateName4"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("模板5")]
+        public string TemplateName5 {
+            get {
+                return ((string)(this["TemplateName5"]));
+            }
+            set {
+                this["TemplateName5"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("模板6")]
+        public string TemplateName6 {
+            get {
+                return ((string)(this["TemplateName6"]));
+            }
+            set {
+                this["TemplateName6"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("模板7")]
+        public string TemplateName7 {
+            get {
+                return ((string)(this["TemplateName7"]));
+            }
+            set {
+                this["TemplateName7"] = value;
             }
         }
     }
