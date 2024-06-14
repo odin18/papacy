@@ -335,12 +335,12 @@ namespace papacy1
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.賣頭列印ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TemplateName1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.模板2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.模板3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.模板4ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.模板5ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.模板6ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.模板7ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.TemplateName2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.TemplateName3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.TemplateName4ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.TemplateName5ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.TemplateName6ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.TemplateName7ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.標籤列印ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.大小裝箱明細ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.系統設定ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -419,7 +419,7 @@ namespace papacy1
             this.tabControl.Name = "tabControl";
             this.tabControl.Padding = new System.Drawing.Point(0, 0);
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(1010, 697);
+            this.tabControl.Size = new System.Drawing.Size(1010, 633);
             this.tabControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabControl.TabIndex = 0;
             this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
@@ -468,7 +468,7 @@ namespace papacy1
             this.tabPage1.Location = new System.Drawing.Point(4, 5);
             this.tabPage1.Margin = new System.Windows.Forms.Padding(0);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(1002, 688);
+            this.tabPage1.Size = new System.Drawing.Size(1002, 624);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "模板1";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -527,7 +527,7 @@ namespace papacy1
             this.label15.AutoSize = true;
             this.label15.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.label15.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label15.Location = new System.Drawing.Point(8, 656);
+            this.label15.Location = new System.Drawing.Point(8, 592);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(241, 20);
             this.label15.TabIndex = 196;
@@ -983,7 +983,7 @@ namespace papacy1
             this.tabPage2.Font = new System.Drawing.Font("新細明體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.tabPage2.Location = new System.Drawing.Point(4, 5);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(1002, 680);
+            this.tabPage2.Size = new System.Drawing.Size(1002, 656);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "模板2";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -1069,7 +1069,7 @@ namespace papacy1
             this.label14.AutoSize = true;
             this.label14.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.label14.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label14.Location = new System.Drawing.Point(3, 643);
+            this.label14.Location = new System.Drawing.Point(3, 619);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(241, 20);
             this.label14.TabIndex = 196;
@@ -1479,7 +1479,7 @@ namespace papacy1
             this.tabPage3.Font = new System.Drawing.Font("新細明體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.tabPage3.Location = new System.Drawing.Point(4, 5);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1002, 680);
+            this.tabPage3.Size = new System.Drawing.Size(1002, 656);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "模板3";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -1565,7 +1565,7 @@ namespace papacy1
             this.label13.AutoSize = true;
             this.label13.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.label13.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label13.Location = new System.Drawing.Point(8, 655);
+            this.label13.Location = new System.Drawing.Point(8, 631);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(241, 20);
             this.label13.TabIndex = 196;
@@ -1950,7 +1950,7 @@ namespace papacy1
             this.tabPage4.Font = new System.Drawing.Font("新細明體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.tabPage4.Location = new System.Drawing.Point(4, 5);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(1002, 680);
+            this.tabPage4.Size = new System.Drawing.Size(1002, 656);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "模板4";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -1961,7 +1961,7 @@ namespace papacy1
             this.label12.AutoSize = true;
             this.label12.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.label12.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label12.Location = new System.Drawing.Point(4, 655);
+            this.label12.Location = new System.Drawing.Point(4, 631);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(241, 20);
             this.label12.TabIndex = 379;
@@ -2426,7 +2426,7 @@ namespace papacy1
             this.tabPage5.Font = new System.Drawing.Font("新細明體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.tabPage5.Location = new System.Drawing.Point(4, 5);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(1002, 680);
+            this.tabPage5.Size = new System.Drawing.Size(1002, 656);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "模板5";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -2512,7 +2512,7 @@ namespace papacy1
             this.label11.AutoSize = true;
             this.label11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.label11.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label11.Location = new System.Drawing.Point(8, 646);
+            this.label11.Location = new System.Drawing.Point(8, 622);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(241, 20);
             this.label11.TabIndex = 196;
@@ -2946,7 +2946,7 @@ namespace papacy1
             this.tabPage6.Font = new System.Drawing.Font("新細明體", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.tabPage6.Location = new System.Drawing.Point(4, 5);
             this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(1002, 680);
+            this.tabPage6.Size = new System.Drawing.Size(1002, 656);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "模板6";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -3032,7 +3032,7 @@ namespace papacy1
             this.label8.AutoSize = true;
             this.label8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.label8.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label8.Location = new System.Drawing.Point(3, 655);
+            this.label8.Location = new System.Drawing.Point(3, 631);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(241, 20);
             this.label8.TabIndex = 195;
@@ -3549,7 +3549,7 @@ namespace papacy1
             this.tabPage7.Location = new System.Drawing.Point(4, 5);
             this.tabPage7.Margin = new System.Windows.Forms.Padding(0);
             this.tabPage7.Name = "tabPage7";
-            this.tabPage7.Size = new System.Drawing.Size(1002, 680);
+            this.tabPage7.Size = new System.Drawing.Size(1002, 656);
             this.tabPage7.TabIndex = 6;
             this.tabPage7.Text = "模板7";
             this.tabPage7.UseVisualStyleBackColor = true;
@@ -3635,7 +3635,7 @@ namespace papacy1
             this.label10.AutoSize = true;
             this.label10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.label10.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label10.Location = new System.Drawing.Point(8, 646);
+            this.label10.Location = new System.Drawing.Point(8, 622);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(241, 20);
             this.label10.TabIndex = 196;
@@ -3980,7 +3980,7 @@ namespace papacy1
             this.tabPage8.Location = new System.Drawing.Point(4, 5);
             this.tabPage8.Name = "tabPage8";
             this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage8.Size = new System.Drawing.Size(1002, 680);
+            this.tabPage8.Size = new System.Drawing.Size(1002, 624);
             this.tabPage8.TabIndex = 7;
             this.tabPage8.Text = "列印設定";
             this.tabPage8.UseVisualStyleBackColor = true;
@@ -4018,14 +4018,6 @@ namespace papacy1
             // templateName_comboBox
             // 
             this.templateName_comboBox.FormattingEnabled = true;
-            this.templateName_comboBox.Items.AddRange(new object[] {
-            "模板1",
-            "模板2",
-            "模板3",
-            "模板4",
-            "模板5",
-            "模板6",
-            "模板7"});
             this.templateName_comboBox.Location = new System.Drawing.Point(103, 32);
             this.templateName_comboBox.Name = "templateName_comboBox";
             this.templateName_comboBox.Size = new System.Drawing.Size(121, 32);
@@ -4226,7 +4218,7 @@ namespace papacy1
             this.tabPage9.Location = new System.Drawing.Point(4, 5);
             this.tabPage9.Name = "tabPage9";
             this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage9.Size = new System.Drawing.Size(1002, 680);
+            this.tabPage9.Size = new System.Drawing.Size(1002, 624);
             this.tabPage9.TabIndex = 8;
             this.tabPage9.Text = "大、小、裝箱明細";
             this.tabPage9.UseVisualStyleBackColor = true;
@@ -4237,7 +4229,7 @@ namespace papacy1
             this.label17.AutoSize = true;
             this.label17.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.label17.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label17.Location = new System.Drawing.Point(8, 655);
+            this.label17.Location = new System.Drawing.Point(8, 599);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(241, 20);
             this.label17.TabIndex = 196;
@@ -4265,12 +4257,12 @@ namespace papacy1
             // 
             this.賣頭列印ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.TemplateName1ToolStripMenuItem,
-            this.模板2ToolStripMenuItem,
-            this.模板3ToolStripMenuItem,
-            this.模板4ToolStripMenuItem,
-            this.模板5ToolStripMenuItem,
-            this.模板6ToolStripMenuItem,
-            this.模板7ToolStripMenuItem});
+            this.TemplateName2ToolStripMenuItem,
+            this.TemplateName3ToolStripMenuItem,
+            this.TemplateName4ToolStripMenuItem,
+            this.TemplateName5ToolStripMenuItem,
+            this.TemplateName6ToolStripMenuItem,
+            this.TemplateName7ToolStripMenuItem});
             this.賣頭列印ToolStripMenuItem.Font = new System.Drawing.Font("微軟正黑體", 16.2F);
             this.賣頭列印ToolStripMenuItem.Name = "賣頭列印ToolStripMenuItem";
             this.賣頭列印ToolStripMenuItem.Size = new System.Drawing.Size(112, 32);
@@ -4279,51 +4271,51 @@ namespace papacy1
             // TemplateName1ToolStripMenuItem
             // 
             this.TemplateName1ToolStripMenuItem.Name = "TemplateName1ToolStripMenuItem";
-            this.TemplateName1ToolStripMenuItem.Size = new System.Drawing.Size(141, 32);
+            this.TemplateName1ToolStripMenuItem.Size = new System.Drawing.Size(180, 32);
             this.TemplateName1ToolStripMenuItem.Text = "模板1";
-            this.TemplateName1ToolStripMenuItem.Click += new System.EventHandler(this.模板1ToolStripMenuItem_Click);
+            this.TemplateName1ToolStripMenuItem.Click += new System.EventHandler(this.TemplateName1ToolStripMenuItem_Click);
             // 
-            // 模板2ToolStripMenuItem
+            // TemplateName2ToolStripMenuItem
             // 
-            this.模板2ToolStripMenuItem.Name = "模板2ToolStripMenuItem";
-            this.模板2ToolStripMenuItem.Size = new System.Drawing.Size(141, 32);
-            this.模板2ToolStripMenuItem.Text = "模板2";
-            this.模板2ToolStripMenuItem.Click += new System.EventHandler(this.模板2ToolStripMenuItem_Click);
+            this.TemplateName2ToolStripMenuItem.Name = "TemplateName2ToolStripMenuItem";
+            this.TemplateName2ToolStripMenuItem.Size = new System.Drawing.Size(180, 32);
+            this.TemplateName2ToolStripMenuItem.Text = "模板2";
+            this.TemplateName2ToolStripMenuItem.Click += new System.EventHandler(this.TemplateName2ToolStripMenuItem_Click);
             // 
-            // 模板3ToolStripMenuItem
+            // TemplateName3ToolStripMenuItem
             // 
-            this.模板3ToolStripMenuItem.Name = "模板3ToolStripMenuItem";
-            this.模板3ToolStripMenuItem.Size = new System.Drawing.Size(141, 32);
-            this.模板3ToolStripMenuItem.Text = "模板3";
-            this.模板3ToolStripMenuItem.Click += new System.EventHandler(this.模板3ToolStripMenuItem_Click);
+            this.TemplateName3ToolStripMenuItem.Name = "TemplateName3ToolStripMenuItem";
+            this.TemplateName3ToolStripMenuItem.Size = new System.Drawing.Size(180, 32);
+            this.TemplateName3ToolStripMenuItem.Text = "模板3";
+            this.TemplateName3ToolStripMenuItem.Click += new System.EventHandler(this.TemplateName3ToolStripMenuItem_Click);
             // 
-            // 模板4ToolStripMenuItem
+            // TemplateName4ToolStripMenuItem
             // 
-            this.模板4ToolStripMenuItem.Name = "模板4ToolStripMenuItem";
-            this.模板4ToolStripMenuItem.Size = new System.Drawing.Size(141, 32);
-            this.模板4ToolStripMenuItem.Text = "模板4";
-            this.模板4ToolStripMenuItem.Click += new System.EventHandler(this.模板4ToolStripMenuItem_Click);
+            this.TemplateName4ToolStripMenuItem.Name = "TemplateName4ToolStripMenuItem";
+            this.TemplateName4ToolStripMenuItem.Size = new System.Drawing.Size(180, 32);
+            this.TemplateName4ToolStripMenuItem.Text = "模板4";
+            this.TemplateName4ToolStripMenuItem.Click += new System.EventHandler(this.TemplateName4ToolStripMenuItem_Click);
             // 
-            // 模板5ToolStripMenuItem
+            // TemplateName5ToolStripMenuItem
             // 
-            this.模板5ToolStripMenuItem.Name = "模板5ToolStripMenuItem";
-            this.模板5ToolStripMenuItem.Size = new System.Drawing.Size(141, 32);
-            this.模板5ToolStripMenuItem.Text = "模板5";
-            this.模板5ToolStripMenuItem.Click += new System.EventHandler(this.模板5ToolStripMenuItem_Click);
+            this.TemplateName5ToolStripMenuItem.Name = "TemplateName5ToolStripMenuItem";
+            this.TemplateName5ToolStripMenuItem.Size = new System.Drawing.Size(180, 32);
+            this.TemplateName5ToolStripMenuItem.Text = "模板5";
+            this.TemplateName5ToolStripMenuItem.Click += new System.EventHandler(this.TemplateName5ToolStripMenuItem_Click);
             // 
-            // 模板6ToolStripMenuItem
+            // TemplateName6ToolStripMenuItem
             // 
-            this.模板6ToolStripMenuItem.Name = "模板6ToolStripMenuItem";
-            this.模板6ToolStripMenuItem.Size = new System.Drawing.Size(141, 32);
-            this.模板6ToolStripMenuItem.Text = "模板6";
-            this.模板6ToolStripMenuItem.Click += new System.EventHandler(this.模板6ToolStripMenuItem_Click);
+            this.TemplateName6ToolStripMenuItem.Name = "TemplateName6ToolStripMenuItem";
+            this.TemplateName6ToolStripMenuItem.Size = new System.Drawing.Size(180, 32);
+            this.TemplateName6ToolStripMenuItem.Text = "模板6";
+            this.TemplateName6ToolStripMenuItem.Click += new System.EventHandler(this.TemplateName6ToolStripMenuItem_Click);
             // 
-            // 模板7ToolStripMenuItem
+            // TemplateName7ToolStripMenuItem
             // 
-            this.模板7ToolStripMenuItem.Name = "模板7ToolStripMenuItem";
-            this.模板7ToolStripMenuItem.Size = new System.Drawing.Size(141, 32);
-            this.模板7ToolStripMenuItem.Text = "模板7";
-            this.模板7ToolStripMenuItem.Click += new System.EventHandler(this.模板7ToolStripMenuItem_Click);
+            this.TemplateName7ToolStripMenuItem.Name = "TemplateName7ToolStripMenuItem";
+            this.TemplateName7ToolStripMenuItem.Size = new System.Drawing.Size(180, 32);
+            this.TemplateName7ToolStripMenuItem.Text = "模板7";
+            this.TemplateName7ToolStripMenuItem.Click += new System.EventHandler(this.TemplateName7ToolStripMenuItem_Click);
             // 
             // 標籤列印ToolStripMenuItem
             // 
@@ -4742,12 +4734,12 @@ namespace papacy1
         private MenuStrip menuStrip1;
         private ToolStripMenuItem 賣頭列印ToolStripMenuItem;
         private ToolStripMenuItem TemplateName1ToolStripMenuItem;
-        private ToolStripMenuItem 模板2ToolStripMenuItem;
-        private ToolStripMenuItem 模板3ToolStripMenuItem;
-        private ToolStripMenuItem 模板4ToolStripMenuItem;
-        private ToolStripMenuItem 模板5ToolStripMenuItem;
-        private ToolStripMenuItem 模板6ToolStripMenuItem;
-        private ToolStripMenuItem 模板7ToolStripMenuItem;
+        private ToolStripMenuItem TemplateName2ToolStripMenuItem;
+        private ToolStripMenuItem TemplateName3ToolStripMenuItem;
+        private ToolStripMenuItem TemplateName4ToolStripMenuItem;
+        private ToolStripMenuItem TemplateName5ToolStripMenuItem;
+        private ToolStripMenuItem TemplateName6ToolStripMenuItem;
+        private ToolStripMenuItem TemplateName7ToolStripMenuItem;
         private ToolStripMenuItem 標籤列印ToolStripMenuItem;
         private ToolStripMenuItem 大小裝箱明細ToolStripMenuItem;
         private ToolStripMenuItem 系統設定ToolStripMenuItem;

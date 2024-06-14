@@ -29,21 +29,31 @@ namespace papacy1
         private const int defaultWidth = 1028;
         private const int defaultHeight = 768;
 
-        // 模板名稱對應
-        private Dictionary<string, string> templateNameMap = new Dictionary<string, string>()
+        internal class TemplateMapModel
         {
-            {"模板1", "TemplateName1"},
-            {"模板2", "TemplateName2"},
-            {"模板3", "TemplateName3"},
-            {"模板4", "TemplateName4"},
-            {"模板5", "TemplateName5"},
-            {"模板6", "TemplateName6"},
-            {"模板7", "TemplateName7"},
-        };
+            public TemplateMapModel(string PropertyName, TabPage TabPage, ToolStripMenuItem ToolStripMenuItem)
+            {
+                this.PropertyName = PropertyName;
+                this.TabPage = TabPage;
+                this.ToolStripMenuItem = ToolStripMenuItem;
+            }
+
+            public string PropertyName { get; set; }
+
+
+
+            public TabPage TabPage { get; set; }
+
+            public ToolStripMenuItem ToolStripMenuItem { get; set; }
+        }
+
+        // 模板 settings 名稱、TabPage、ToolStripMenuItem 對應表
+        private Dictionary<string, TemplateMapModel> templateNameMap;
 
         //出bug解決方法 https://www.796t.com/content/1547133874.html
         public papacy()
         {
+
             InitializeComponent();
 
             copies = 0;
@@ -100,15 +110,26 @@ namespace papacy1
 
             // 將 tabControl 的當前選定標籤頁設定為tabPage8
             tabControl.SelectedTab = tabPage8;
-            // 選擇模板設定的下拉跳預設值
-            templateName_comboBox.SelectedIndex = 0;
 
             // 每一次預設值會一直跑掉
             this.Width = defaultWidth;
             this.Height = defaultHeight;
 
-            //Controls.OfType<System.Windows.Forms.ContextMenuStrip>().FirstOrDefault(tb => tb.Name.StartsWith("OrigintextBox"));
+            // 設定列印設定內下拉選單、Menu 選單、TabPage、Settings 各項關聯
+            this.templateNameMap = new Dictionary<string, TemplateMapModel>()
+            {
+                {"模板1", new TemplateMapModel("TemplateName1", tabPage1, TemplateName1ToolStripMenuItem) },
+                {"模板2", new TemplateMapModel("TemplateName2", tabPage2, TemplateName2ToolStripMenuItem) },
+                {"模板3", new TemplateMapModel("TemplateName3", tabPage3, TemplateName3ToolStripMenuItem) },
+                {"模板4", new TemplateMapModel("TemplateName4", tabPage4, TemplateName4ToolStripMenuItem) },
+                {"模板5", new TemplateMapModel("TemplateName5", tabPage5, TemplateName5ToolStripMenuItem) },
+                {"模板6", new TemplateMapModel("TemplateName6", tabPage6, TemplateName6ToolStripMenuItem) },
+                {"模板7", new TemplateMapModel("TemplateName7", tabPage7, TemplateName7ToolStripMenuItem) },
+            };
 
+            this.templateName_comboBox.Items.AddRange(templateNameMap.Keys.ToArray());
+            // 選擇模板設定的下拉跳預設值
+            templateName_comboBox.SelectedIndex = 0;
         }
         private void LoadPrinters()
         {
@@ -273,6 +294,22 @@ namespace papacy1
             }
 
             SetTags(this);
+
+            // 設定選單、TabPage 名稱
+            foreach (var item in templateNameMap)
+            {
+                // 從字典中查找對應的設定值並更新textBox
+
+                string propertyName = item.Value.PropertyName;
+                // 使用反射來找到對應的設定屬性並更新其值
+                PropertyInfo propertyInfo = typeof(Properties.Settings).GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance);
+
+                // 因為這些屬性屬於Properties.Settings.Default，所以需要傳入這個實例來獲取值
+                string userSettingsValue = (string)propertyInfo.GetValue(Properties.Settings.Default, null);
+
+                item.Value.ToolStripMenuItem.Text = userSettingsValue;
+                item.Value.TabPage.Text = userSettingsValue;
+            }
         }
 
         private void SetTags(Control cons)
@@ -787,7 +824,7 @@ namespace papacy1
             {
                 for (double j = 0; j < SameCNOcopies; j++) // 同一CNO的副本數
                 {
-                    currentValue = (startQuantity + currentPrintCount).ToString().PadLeft(padLeft,'0'); // 計算當前列印數值
+                    currentValue = (startQuantity + currentPrintCount).ToString().PadLeft(padLeft, '0'); // 計算當前列印數值
                     btFormat.SubStrings["Current"].Value = currentValue; // 設置列印數值
 
                     // 執行列印操作
@@ -958,7 +995,7 @@ namespace papacy1
             btFormat.SubStrings["Location"].Value = LocationtextBox1.Text;
             btFormat.SubStrings["LOTNumber"].Value = LOTtextBox1.Text;
             int padLeft = Convert.ToInt16(MD1_CBX_CNO.Text);
-            
+
             PrintStart(1, padLeft);
 
             engine.Stop();
@@ -2116,16 +2153,24 @@ namespace papacy1
         private void setTabVisible(ToolStripMenuItem menuItem)
         {
             string currentMenuItemName = menuItem.Text;
+            TabPage selectTab = null;
+            
+            foreach (var item in templateNameMap)
+            {
+                if(item.Value.ToolStripMenuItem.Name == menuItem.Name)
+                {
+                    selectTab = item.Value.TabPage;
+                    break;
+                }
+            }
 
-            var selectTab = tabControl.TabPages.Cast<TabPage>().FirstOrDefault(x => x.Text == currentMenuItemName);
-
-            if(selectTab != null)
+            if (selectTab != null)
             {
                 tabControl.SelectedTab = selectTab;
             }
         }
 
-        private void 模板1ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void TemplateName1ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // 确保 sender 是一个 ToolStripMenuItem
             if (sender is ToolStripMenuItem menuItem)
@@ -2134,7 +2179,7 @@ namespace papacy1
             }
         }
 
-        private void 模板2ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void TemplateName2ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (sender is ToolStripMenuItem menuItem)
             {
@@ -2142,7 +2187,7 @@ namespace papacy1
             }
         }
 
-        private void 模板3ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void TemplateName3ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (sender is ToolStripMenuItem menuItem)
             {
@@ -2150,7 +2195,7 @@ namespace papacy1
             }
         }
 
-        private void 模板4ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void TemplateName4ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (sender is ToolStripMenuItem menuItem)
             {
@@ -2158,7 +2203,7 @@ namespace papacy1
             }
         }
 
-        private void 模板5ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void TemplateName5ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (sender is ToolStripMenuItem menuItem)
             {
@@ -2166,7 +2211,7 @@ namespace papacy1
             }
         }
 
-        private void 模板6ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void TemplateName6ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (sender is ToolStripMenuItem menuItem)
             {
@@ -2174,7 +2219,7 @@ namespace papacy1
             }
         }
 
-        private void 模板7ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void TemplateName7ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (sender is ToolStripMenuItem menuItem)
             {
@@ -2200,10 +2245,10 @@ namespace papacy1
 
         private void UpdateSettings(string templateName, string newValue)
         {
-            if (templateNameMap.TryGetValue(templateName, out string propertyName))
+            if (templateNameMap.TryGetValue(templateName, out var mapObject))
             {
                 // 使用反射來找到對應的設定屬性並更新其值
-                PropertyInfo propertyInfo = typeof(Properties.Settings).GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance);
+                PropertyInfo propertyInfo = typeof(Properties.Settings).GetProperty(mapObject.PropertyName, BindingFlags.Public | BindingFlags.Instance);
                 if (propertyInfo != null)
                 {
                     propertyInfo.SetValue(Properties.Settings.Default, newValue, null);
@@ -2212,7 +2257,7 @@ namespace papacy1
                 else
                 {
                     // 處理屬性不存在的情況
-                    Console.WriteLine($"Property {propertyName} not found.");
+                    Console.WriteLine($"Property {mapObject.PropertyName} not found.");
                 }
             }
             else
@@ -2225,8 +2270,13 @@ namespace papacy1
         private void templateName_SaveBtn_Click(object sender, EventArgs e)
         {
             string selected = templateName_comboBox.SelectedItem.ToString();
-
+            
             UpdateSettings(selected, templateName_textBox.Text);
+
+            templateNameMap.TryGetValue(selected, out var mapObject);
+
+            mapObject.ToolStripMenuItem.Text = templateName_textBox.Text;
+            mapObject.TabPage.Text = templateName_textBox.Text;
 
             // 提示儲存成功
             MessageBox.Show("設定已儲存。");
@@ -2239,7 +2289,7 @@ namespace papacy1
             // 從字典中查找對應的設定值並更新textBox
             if (templateNameMap.ContainsKey(selected))
             {
-                string propertyName = templateNameMap[selected];
+                string propertyName = templateNameMap[selected].PropertyName;
                 // 使用反射來找到對應的設定屬性並更新其值
                 PropertyInfo propertyInfo = typeof(Properties.Settings).GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance);
 
