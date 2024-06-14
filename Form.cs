@@ -125,6 +125,8 @@ namespace papacy1
                 {"模板5", new TemplateMapModel("TemplateName5", tabPage5, TemplateName5ToolStripMenuItem) },
                 {"模板6", new TemplateMapModel("TemplateName6", tabPage6, TemplateName6ToolStripMenuItem) },
                 {"模板7", new TemplateMapModel("TemplateName7", tabPage7, TemplateName7ToolStripMenuItem) },
+                {"列印設定", new TemplateMapModel("", tabPage8, 列印設定ToolStripMenuItem) },
+                {"大小裝箱明細",new TemplateMapModel("", tabPage9, 大小裝箱明細ToolStripMenuItem) }
             };
 
             this.templateName_comboBox.Items.AddRange(templateNameMap.Keys.ToArray());
@@ -298,17 +300,21 @@ namespace papacy1
             // 設定選單、TabPage 名稱
             foreach (var item in templateNameMap)
             {
-                // 從字典中查找對應的設定值並更新textBox
-
+                // 找出對應的 settings
                 string propertyName = item.Value.PropertyName;
-                // 使用反射來找到對應的設定屬性並更新其值
-                PropertyInfo propertyInfo = typeof(Properties.Settings).GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance);
 
-                // 因為這些屬性屬於Properties.Settings.Default，所以需要傳入這個實例來獲取值
-                string userSettingsValue = (string)propertyInfo.GetValue(Properties.Settings.Default, null);
+                // 為空代表 settings 沒有此設定, 不需要變更
+                if (!string.IsNullOrEmpty(propertyName))
+                {
+                    // 使用反射來找到對應的設定屬性並更新其值
+                    PropertyInfo propertyInfo = typeof(Properties.Settings).GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance);
 
-                item.Value.ToolStripMenuItem.Text = userSettingsValue;
-                item.Value.TabPage.Text = userSettingsValue;
+                    // 因為這些屬性屬於Properties.Settings.Default，所以需要傳入這個實例來獲取值
+                    string userSettingsValue = (string)propertyInfo.GetValue(Properties.Settings.Default, null);
+
+                    item.Value.ToolStripMenuItem.Text = userSettingsValue;
+                    item.Value.TabPage.Text = userSettingsValue;
+                }
             }
         }
 
@@ -847,22 +853,17 @@ namespace papacy1
 
         }
 
-        private void Priviewbutton1_Click(object sender, EventArgs e)
+        private void InitializeBarTenderAndOpenFormatLabel()
         {
-            DefaultSetting(1);
-
-            if (!ValidatePrintingOptions(selectedPrinter, copies))
-            {
-                return;
-            }
-
             // 初始化 Seagull BarTender 引擎
             engine.Start();
 
             // 開啟標籤文件
             btFormat = engine.Documents.Open(tempPath, selectedPrinter);
-            // 參數說明：標籤路徑，印表機名稱
+        }
 
+        private void SetTemplate1()
+        {
             // 設定標籤中的欄位值
             btFormat.SubStrings["Textbox"].Value = GraphictextBox1.Text;
             btFormat.SubStrings["NW"].Value = NWtextBox1.Text;
@@ -888,6 +889,21 @@ namespace papacy1
             btFormat.SubStrings["CNO"].Value = CNOtextBox1.Text;
             btFormat.SubStrings["Location"].Value = LocationtextBox1.Text;
             btFormat.SubStrings["LOTNumber"].Value = LOTtextBox1.Text;
+
+        }
+
+        private void Priviewbutton1_Click(object sender, EventArgs e)
+        {
+            DefaultSetting(1);
+
+            if (!ValidatePrintingOptions(selectedPrinter, copies))
+            {
+                return;
+            }
+
+            InitializeBarTenderAndOpenFormatLabel();
+            SetTemplate1();
+
             int padLeft = Convert.ToInt16(MD1_CBX_CNO.Text);
             PriviewPrintStart(1, padLeft);
         }
@@ -976,24 +992,9 @@ namespace papacy1
                 return;
             }
 
-            // 初始化 Seagull BarTender 引擎
-            engine.Start();
+            InitializeBarTenderAndOpenFormatLabel();
+            SetTemplate1();
 
-            // 開啟標籤文件
-            btFormat = engine.Documents.Open(tempPath, selectedPrinter);
-            // 參數說明：標籤路徑，印表機名稱
-
-            // 設定標籤中的欄位值
-            btFormat.SubStrings["Textbox"].Value = GraphictextBox1.Text;
-            btFormat.SubStrings["NW"].Value = NWtextBox1.Text;
-            btFormat.SubStrings["NWunit"].Value = " " + NWunitcomboBox1.Text;
-            btFormat.SubStrings["GW"].Value = GWtextBox1.Text;
-            btFormat.SubStrings["GWunit"].Value = " " + GWunitcomboBox1.Text;
-            btFormat.SubStrings["SPEC"].Value = SPECtextBox1.Text;
-            btFormat.SubStrings["Origin"].Value = OrigintextBox1.Text;
-            btFormat.SubStrings["CNO"].Value = CNOtextBox1.Text;
-            btFormat.SubStrings["Location"].Value = LocationtextBox1.Text;
-            btFormat.SubStrings["LOTNumber"].Value = LOTtextBox1.Text;
             int padLeft = Convert.ToInt16(MD1_CBX_CNO.Text);
 
             PrintStart(1, padLeft);
