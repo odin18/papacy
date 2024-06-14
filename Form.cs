@@ -10,6 +10,7 @@ using System.Management;
 using System.Collections.Generic;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace papacy1
 {
@@ -23,7 +24,11 @@ namespace papacy1
         private int copies;
         private int SameCNOcopies;
         private bool isUpdating = false;
-        private List<TabPage> _allTabControl = new List<TabPage>();
+
+        // 原始尺寸(1028x768)的比例
+        private const int defaultWidth = 1028;
+        private const int defaultHeight = 768;
+
         // 模板名稱對應
         private Dictionary<string, string> templateNameMap = new Dictionary<string, string>()
         {
@@ -39,7 +44,6 @@ namespace papacy1
         //出bug解決方法 https://www.796t.com/content/1547133874.html
         public papacy()
         {
-
             InitializeComponent();
 
             copies = 0;
@@ -94,18 +98,17 @@ namespace papacy1
             MD6_CBX_CNO.Text = "3";
             MD7_CBX_CNO.Text = "3";
 
-            // 把目前 Form 上的 tabControl 全部的 tabpage 儲存
-            _allTabControl.AddRange(tabControl.TabPages.Cast<TabPage>());
-
-            tabControl.TabPages.Clear();
-
             // 將 tabControl 的當前選定標籤頁設定為tabPage8
-            tabControl.TabPages.Add(tabPage8);
-            // 列印設定的下拉跳預設值
+            tabControl.SelectedTab = tabPage8;
+            // 選擇模板設定的下拉跳預設值
             templateName_comboBox.SelectedIndex = 0;
 
-            //// 初始化 TextBox 的值為當前設定
-            //templateName_textBox.Text = Properties.Settings.Default.TemplateName1;
+            // 每一次預設值會一直跑掉
+            this.Width = defaultWidth;
+            this.Height = defaultHeight;
+
+            //Controls.OfType<System.Windows.Forms.ContextMenuStrip>().FirstOrDefault(tb => tb.Name.StartsWith("OrigintextBox"));
+
         }
         private void LoadPrinters()
         {
@@ -194,15 +197,11 @@ namespace papacy1
             RegularFont.Dispose();
         }
 
-
         private void papacy_Resize(object sender, EventArgs e)
         {
             // 計算新的寬度和高度相對於原始尺寸(1028x768)的比例
-            float newx = (this.Width) / 1028f;
-            float newy = (this.Height) / 768f;
-
-            // 根據新的尺寸比例調整TabControl的項目大小
-            tabControl.ItemSize = new Size((int)(100 * newx), (int)(40 * newy));
+            float newx = (this.Width) / Convert.ToSingle(defaultWidth);
+            float newy = (this.Height) / Convert.ToSingle(defaultHeight);
 
             // 調用setControls方法來重新設置其他控件的尺寸和位置
             setControls(newx, newy, this);
@@ -240,30 +239,13 @@ namespace papacy1
 
         private void papacy_Load(object sender, EventArgs e)
         {
-            // 設定 LOTtextBoxes 的初始值
-            for (int i = 1; i <= 7; i++)
-            {
-                if (i != 3) // 跳過3
-                {
-                    string settingName = $"LOTNum{i}";
-                    string propertyName = $"LOTtextBox{i}";
-                    var settingValue = Properties.Settings.Default[settingName];
-                    if (settingValue != null && !string.IsNullOrEmpty(settingValue.ToString()))
-                    {
-                        var textBox = this.Controls.Find(propertyName, true).FirstOrDefault() as System.Windows.Forms.TextBox;
-                        if (textBox != null)
-                        {
-                            textBox.Text = settingValue.ToString();
-                        }
-                    }
-                }
-            }
-
             // 設定 OrigintextBox 和 EndtextBox
-            for (int i = 0; i < tabControl.TabPages.Count; i++)
+            foreach (TabPage tabPage in tabControl.TabPages)
             {
-                System.Windows.Forms.TextBox originTextBox = (System.Windows.Forms.TextBox)tabControl.TabPages[i].Controls["OrigintextBox" + (i + 1)];
-                System.Windows.Forms.TextBox endTextBox = (System.Windows.Forms.TextBox)tabControl.TabPages[i].Controls["EndtextBox" + (i + 1)];
+                // 使用 LINQ 查詢特定類型的 TextBox
+                var originTextBox = tabPage.Controls.OfType<System.Windows.Forms.TextBox>().FirstOrDefault(tb => tb.Name.StartsWith("OrigintextBox"));
+                var endTextBox = tabPage.Controls.OfType<System.Windows.Forms.TextBox>().FirstOrDefault(tb => tb.Name.StartsWith("EndtextBox"));
+                var LOTtextBox = tabPage.Controls.OfType<System.Windows.Forms.TextBox>().FirstOrDefault(tb => tb.Name.StartsWith("LOTtextBox"));
 
                 if (originTextBox != null)
                 {
@@ -276,11 +258,21 @@ namespace papacy1
                 {
                     endTextBox.ForeColor = SystemColors.WindowText;
                 }
+
+                // 設定 LOTtextBoxes 的初始值
+                if (LOTtextBox != null)
+                {
+                    // 使用正則表達式匹配字符串末尾的一個或多個數字
+                    Regex regex = new Regex(@"\d+$");
+                    Match match = regex.Match(LOTtextBox.Name);
+
+                    string settingName = $"LOTNum{match.Value}";
+                    var settingValue = Properties.Settings.Default[settingName];
+                    LOTtextBox.Text = settingValue.ToString();
+                }
             }
 
-            // 設置每個控件的Tag屬性，用於後續的尺寸和位置調整
-            //SetTags(this);
-
+            SetTags(this);
         }
 
         private void SetTags(Control cons)
@@ -289,6 +281,7 @@ namespace papacy1
             {
                 // 設置控件的Tag屬性，其中包括控件的寬度、高度、左邊距、上邊距和字體大小
                 con.Tag = $"{con.Width};{con.Height};{con.Left};{con.Top};{con.Font.Size}";
+
                 // 如果該控件還有子控件，遞歸地設置它們的Tag
                 if (con.Controls.Count > 0)
                 {
@@ -2122,61 +2115,14 @@ namespace papacy1
         /// <param name="menuItem"></param>
         private void setTabVisible(ToolStripMenuItem menuItem)
         {
-            tabControl.Visible = true;
-            
             string currentMenuItemName = menuItem.Text;
 
-            tabControl.TabPages.Clear();
-
-            var selectTab = _allTabControl.FirstOrDefault(x => x.Text == currentMenuItemName);
+            var selectTab = tabControl.TabPages.Cast<TabPage>().FirstOrDefault(x => x.Text == currentMenuItemName);
 
             if(selectTab != null)
             {
-                tabControl.TabPages.Add(selectTab);
-
-                // 設定 LOTtextBoxes 的初始值
-                for (int i = 1; i <= 7; i++)
-                {
-                    if (i != 3) // 跳過3
-                    {
-                        string settingName = $"LOTNum{i}";
-                        string propertyName = $"LOTtextBox{i}";
-                        var settingValue = Properties.Settings.Default[settingName];
-                        if (settingValue != null && !string.IsNullOrEmpty(settingValue.ToString()))
-                        {
-                            var textBox = this.Controls.Find(propertyName, true).FirstOrDefault() as System.Windows.Forms.TextBox;
-                            if (textBox != null)
-                            {
-                                textBox.Text = settingValue.ToString();
-                            }
-                        }
-                    }
-                }
-
-                // 設定 OrigintextBox 和 EndtextBox
-                for (int i = 0; i < tabControl.TabPages.Count; i++)
-                {
-                    System.Windows.Forms.TextBox originTextBox = (System.Windows.Forms.TextBox)tabControl.TabPages[i].Controls["OrigintextBox" + (i + 1)];
-                    System.Windows.Forms.TextBox endTextBox = (System.Windows.Forms.TextBox)tabControl.TabPages[i].Controls["EndtextBox" + (i + 1)];
-
-                    if (originTextBox != null)
-                    {
-                        originTextBox.Text = "MADE IN";
-                        originTextBox.ForeColor = SystemColors.GrayText;
-                        originTextBox.TextAlign = HorizontalAlignment.Left;
-                    }
-
-                    if (endTextBox != null)
-                    {
-                        endTextBox.ForeColor = SystemColors.WindowText;
-                    }
-                }
-
-                // 設置每個控件的Tag屬性，用於後續的尺寸和位置調整
-                SetTags(this);
+                tabControl.SelectedTab = selectTab;
             }
-
-
         }
 
         private void 模板1ToolStripMenuItem_Click(object sender, EventArgs e)
