@@ -159,16 +159,5 @@
     <Content Include="template7.png" />
     <Content Include="favicon.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="BarTender">
-      <Guid>{D58562C1-E51B-11CF-8941-00A024A9083F}</Guid>
-      <VersionMajor>10</VersionMajor>
-      <VersionMinor>1</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

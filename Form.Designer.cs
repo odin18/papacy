@@ -4235,7 +4235,7 @@ namespace papacy1
             this.大小裝箱_PrintBtn.BackColor = System.Drawing.Color.YellowGreen;
             this.大小裝箱_PrintBtn.Font = new System.Drawing.Font("微軟正黑體", 14.25F, System.Drawing.FontStyle.Bold);
             this.大小裝箱_PrintBtn.ForeColor = System.Drawing.Color.White;
-            this.大小裝箱_PrintBtn.Location = new System.Drawing.Point(620, 119);
+            this.大小裝箱_PrintBtn.Location = new System.Drawing.Point(706, 78);
             this.大小裝箱_PrintBtn.Margin = new System.Windows.Forms.Padding(2);
             this.大小裝箱_PrintBtn.Name = "大小裝箱_PrintBtn";
             this.大小裝箱_PrintBtn.Padding = new System.Windows.Forms.Padding(2);
@@ -4251,7 +4251,7 @@ namespace papacy1
             this.大小裝箱_PreviewBtn.BackColor = System.Drawing.Color.Orange;
             this.大小裝箱_PreviewBtn.Font = new System.Drawing.Font("微軟正黑體", 14.25F, System.Drawing.FontStyle.Bold);
             this.大小裝箱_PreviewBtn.ForeColor = System.Drawing.Color.White;
-            this.大小裝箱_PreviewBtn.Location = new System.Drawing.Point(555, 119);
+            this.大小裝箱_PreviewBtn.Location = new System.Drawing.Point(641, 78);
             this.大小裝箱_PreviewBtn.Margin = new System.Windows.Forms.Padding(1);
             this.大小裝箱_PreviewBtn.Name = "大小裝箱_PreviewBtn";
             this.大小裝箱_PreviewBtn.Padding = new System.Windows.Forms.Padding(2);
@@ -4263,9 +4263,9 @@ namespace papacy1
             // 
             // 大小裝箱textBox
             // 
-            this.大小裝箱textBox.Location = new System.Drawing.Point(555, 61);
+            this.大小裝箱textBox.Location = new System.Drawing.Point(22, 24);
             this.大小裝箱textBox.Name = "大小裝箱textBox";
-            this.大小裝箱textBox.Size = new System.Drawing.Size(285, 36);
+            this.大小裝箱textBox.Size = new System.Drawing.Size(972, 36);
             this.大小裝箱textBox.TabIndex = 197;
             this.大小裝箱textBox.DoubleClick += new System.EventHandler(this.大小裝箱textBox_DoubleClick);
             // 

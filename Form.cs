@@ -862,7 +862,6 @@ namespace papacy1
         private void DefaultSetting(string templateName)
         {
             selectedPrinter = Properties.Settings.Default.SelectedPrinter;
-            //SameCNOcopies = Properties.Settings.Default.Copies;
             tempPath = Path.Combine(Directory.GetCurrentDirectory(), "template", $"template{templateName}.btw");
         }
 
@@ -902,7 +901,6 @@ namespace papacy1
             btFormat.SubStrings["CNO"].Value = CNOtextBox1.Text;
             btFormat.SubStrings["Location"].Value = LocationtextBox1.Text;
             btFormat.SubStrings["LOTNumber"].Value = LOTtextBox1.Text;
-
         }
 
         private void Priviewbutton1_Click(object sender, EventArgs e)
@@ -2169,10 +2167,10 @@ namespace papacy1
         {
             string currentMenuItemName = menuItem.Text;
             TabPage selectTab = null;
-            
+
             foreach (var item in templateNameMap)
             {
-                if(item.Value.ToolStripMenuItem.Name == menuItem.Name)
+                if (item.Value.ToolStripMenuItem.Name == menuItem.Name)
                 {
                     selectTab = item.Value.TabPage;
                     break;
@@ -2285,7 +2283,7 @@ namespace papacy1
         private void templateName_SaveBtn_Click(object sender, EventArgs e)
         {
             string selected = templateName_comboBox.SelectedItem.ToString();
-            
+
             UpdateSettings(selected, templateName_textBox.Text);
 
             templateNameMap.TryGetValue(selected, out var mapObject);
@@ -2314,8 +2312,9 @@ namespace papacy1
             }
         }
 
-        private string c1aPath = string.Empty;
-        private string c1aFileName = "C1A.csv";
+        private string importCSVFilePath = string.Empty;
+        private string importType = string.Empty;
+
         private void 大小裝箱textBox_DoubleClick(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
@@ -2330,27 +2329,40 @@ namespace papacy1
                     return;
                 }
 
+                // 讀取 Big5 編碼的 JSON 檔案
+                string jsonContent;
+                using (StreamReader reader = new StreamReader(大小裝箱textBox.Text, Encoding.GetEncoding("Big5")))
+                {
+                    jsonContent = reader.ReadToEnd();
+                }
+
+                string importFileName = dialog.SafeFileName.ToLower();
+                string csvData = string.Empty;
+                if (importFileName.Contains("c1a"))
+                {
+                    importType = "C1A";
+                    // 解析 JSON 字串
+                    var templateC1AData = JsonConvert.DeserializeObject<List<TemplateC1A>>(jsonContent);
+
+                    csvData = ConvertToCSV<TemplateC1A>(templateC1AData);
+
+                    importCSVFilePath = Path.Combine(Directory.GetCurrentDirectory(), "template", $"{importType}.csv");
+                }
+                else if(importFileName.Contains("c1b"))
+                {
+                    importType = "C1B";
+                }
+                else if(importFileName.Contains("c2b"))
+                {
+                    importType = "C2B";
+                }
+
                 try
                 {
-                    // 讀取 Big5 編碼的 JSON 檔案
-                    string jsonContent;
-                    using (StreamReader reader = new StreamReader(大小裝箱textBox.Text, Encoding.GetEncoding("Big5")))
-                    {
-                        jsonContent = reader.ReadToEnd();
-                    }
-
-                    // 解析 JSON 字串
-                    templateC1AData = JsonConvert.DeserializeObject<List<TemplateC1A>>(jsonContent);
-
-                    string csvData = ConvertToCSV<TemplateC1A>(templateC1AData);
-
-                    c1aPath = Path.Combine(Directory.GetCurrentDirectory(), "template", $"{c1aFileName}");
-
-                    File.WriteAllText(c1aPath, csvData, Encoding.UTF8);
+                    File.WriteAllText(importCSVFilePath, csvData, Encoding.UTF8);
                 }
-                catch (Exception)
+                catch (IOException ex)
                 {
-
                     throw;
                 }
             }
@@ -2383,120 +2395,69 @@ namespace papacy1
             return csvBuilder.ToString();
         }
 
-        private List<TemplateC1A> templateC1AData = new List<TemplateC1A>();
-
         private void 大小裝箱_PrintBtn_Click(object sender, EventArgs e)
         {
-            DefaultSetting("C1A");
+            DefaultSetting(importType);
 
             if (!ValidatePrintingOptions(selectedPrinter, copies))
             {
                 return;
             }
 
+            if (string.IsNullOrEmpty(大小裝箱textBox.Text))
+            {
+                MessageBox.Show("請確認已選擇檔案");
+                return;
+            }
+
             engine.Start();
 
             btFormat = engine.Documents.Open(tempPath, selectedPrinter);
+
             btFormat.PrintSetup.IdenticalCopiesOfLabel = 1;
 
             TextFile tf = new TextFile(btFormat.DatabaseConnections[0].Name);
-            tf.FileName = c1aPath;
+            tf.FileName = importCSVFilePath;
 
             btFormat.DatabaseConnections.SetDatabaseConnection(tf);
             btFormat.Print();
 
             btFormat.Close(Seagull.BarTender.Print.SaveOptions.DoNotSaveChanges);
-            //for (int i = 0; i < templateC1AData.Count; i++)
-            //{
-            //    var item = templateC1AData[i];
-
-            //    Type itemType = item.GetType();
-            //    PropertyInfo[] properties = itemType.GetProperties();
-
-            //    foreach (var property in properties)
-            //    {
-            //        string propertyName = property.Name; // 這是屬性名稱
-            //        object propertyValue = property.GetValue(item); // 這是屬性的值
-
-            //        // 確保屬性值不為 null
-            //        if (propertyValue != null)
-            //        {
-            //            // 將屬性名稱映射到 BarTender 字段
-            //            btFormat.SubStrings[propertyName].Value = propertyValue.ToString();
-            //        }
-            //    }
-            //}
-
-            /*
-            BarTender.Application btapp;
-            BarTender.Format btformat;
-            BarTender.Messages btMsgs;
-            BarTender.BtPrintResult btPrintRtn;
-            btapp = new BarTender.Application();
-            btformat = btapp.Formats.Open(tempPath, false, selectedPrinter);
-            //btformat.Databases = btformat.
-            //btFormat.DatabaseConnections.SetDatabaseConnection();
-            
-            BarTender.Database db = new BarTender.Database();
-            db.TextFile.FileName = "";
-
-            btformat.PrintSetup.IdenticalCopiesOfLabel = templateC1AData.Count;
-
-            btformat.NumberSerializedLabels = templateC1AData.Count;
-            for (int i = 0; i < templateC1AData.Count; i++)
-            {
-                var item = templateC1AData[i];
-
-                Type itemType = item.GetType();
-                PropertyInfo[] properties = itemType.GetProperties();
-
-                foreach (var property in properties)
-                {
-                    string propertyName = property.Name; // 這是屬性名稱
-                    object propertyValue = property.GetValue(item); // 這是屬性的值
-
-                    // 確保屬性值不為 null
-                    if (propertyValue != null)
-                    {
-                        // 將屬性名稱映射到 BarTender 字段
-                        btformat.SetNamedSubStringValue(propertyName, propertyValue.ToString());
-                    }
-                }
-
-                btformat.PrintOut(false, false);
-            }
-
-            
-
-            Thread.Sleep(2000);//休眠2秒后执行
-
-            btapp.Quit(BarTender.BtSaveOptions.btDoNotSaveChanges);//退出时同步退出bartender进程
-            */
+            engine.Stop();
         }
 
         private void 大小裝箱_PreviewBtn_Click(object sender, EventArgs e)
         {
-            DefaultSetting("C1A");
+            DefaultSetting(importType);
 
             if (!ValidatePrintingOptions(selectedPrinter, copies))
             {
                 return;
             }
 
+            if (string.IsNullOrEmpty(大小裝箱textBox.Text))
+            {
+                MessageBox.Show("請確認已選擇檔案");
+                return;
+            }
+
             engine.Start();
 
             btFormat = engine.Documents.Open(tempPath, selectedPrinter);
+
             btFormat.PrintSetup.IdenticalCopiesOfLabel = 1;
 
             TextFile tf = new TextFile(btFormat.DatabaseConnections[0].Name);
-            tf.FileName = c1aPath;
+            tf.FileName = importCSVFilePath;
 
             btFormat.DatabaseConnections.SetDatabaseConnection(tf);
-            
+
             engine.Window.VisibleWindows = VisibleWindows.InteractiveDialogs;
             btFormat.PrintPreview.ShowDialog();
-            
+
             btFormat.Close(Seagull.BarTender.Print.SaveOptions.DoNotSaveChanges);
+
+            engine.Stop();
         }
     }
 }
