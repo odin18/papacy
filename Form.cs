@@ -2387,7 +2387,7 @@ namespace papacy1
 
         private void 大小裝箱_PrintBtn_Click(object sender, EventArgs e)
         {
-            DefaultSetting("C1A_v1");
+            DefaultSetting("C1A");
 
             if (!ValidatePrintingOptions(selectedPrinter, copies))
             {
@@ -2476,7 +2476,7 @@ namespace papacy1
 
         private void 大小裝箱_PreviewBtn_Click(object sender, EventArgs e)
         {
-            DefaultSetting("C1A_v1");
+            DefaultSetting("C1A");
 
             if (!ValidatePrintingOptions(selectedPrinter, copies))
             {
