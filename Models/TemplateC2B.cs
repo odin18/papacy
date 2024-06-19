@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,7 +29,9 @@ namespace papacy1.Models
         {
             public string No { get; set; }
             public string Num { get; set; }
+            [JsonProperty("G.W.")]
             public string GW { get; set; }
+            [JsonProperty("N.W.")]
             public string NW { get; set; }
         }
     }

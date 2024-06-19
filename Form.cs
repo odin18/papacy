@@ -17,6 +17,7 @@ using System.Text;
 using System.Xml.Linq;
 using System.Threading;
 using Seagull.BarTender.Print.Database;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace papacy1
 {
@@ -2329,8 +2330,9 @@ namespace papacy1
                     return;
                 }
 
-                // 讀取 Big5 編碼的 JSON 檔案
+                // 讀取 JSON 檔案
                 string jsonContent;
+
                 using (StreamReader reader = new StreamReader(大小裝箱textBox.Text, Encoding.GetEncoding("Big5")))
                 {
                     jsonContent = reader.ReadToEnd();
@@ -2338,27 +2340,33 @@ namespace papacy1
 
                 string importFileName = dialog.SafeFileName.ToLower();
                 string csvData = string.Empty;
+                
                 if (importFileName.Contains("c1a"))
                 {
                     importType = "C1A";
                     // 解析 JSON 字串
-                    var templateC1AData = JsonConvert.DeserializeObject<List<TemplateC1A>>(jsonContent);
-
-                    csvData = ConvertToCSV<TemplateC1A>(templateC1AData);
-
-                    importCSVFilePath = Path.Combine(Directory.GetCurrentDirectory(), "template", $"{importType}.csv");
+                    csvData = ConvertToCSV(JsonConvert.DeserializeObject<List<TemplateC1A>>(jsonContent));
                 }
                 else if(importFileName.Contains("c1b"))
                 {
                     importType = "C1B";
+
+                    // 解析 JSON 字串
+                    csvData = ConvertToCSV(JsonConvert.DeserializeObject<List<TemplateC1B>>(jsonContent));
                 }
                 else if(importFileName.Contains("c2b"))
                 {
                     importType = "C2B";
+
+                    // 解析 JSON 字串
+                    var c2bData = JsonConvert.DeserializeObject<List<TemplateC2B>>(jsonContent);
                 }
 
                 try
                 {
+                    importCSVFilePath = Path.Combine(Directory.GetCurrentDirectory(), "template", $"{importType}.csv");
+
+                    // 存成 csv utf8 給 bartender 讀取
                     File.WriteAllText(importCSVFilePath, csvData, Encoding.UTF8);
                 }
                 catch (IOException ex)

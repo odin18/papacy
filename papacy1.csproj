@@ -134,6 +134,9 @@
     <None Include="template\templateC1A.btw">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="template\templateC1B.btw">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
