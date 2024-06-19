@@ -83,6 +83,8 @@
       <DependentUpon>Form.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\TemplateC1A.cs" />
+    <Compile Include="Models\TemplateC1B.cs" />
+    <Compile Include="Models\TemplateC2B.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form.resx">
