@@ -36,6 +36,10 @@ namespace papacy1
         private const int defaultWidth = 1028;
         private const int defaultHeight = 768;
 
+        private string importCSVFilePath = string.Empty;
+        private string importType = string.Empty;
+        private List<TemplateC2B> templateC2BImportData = new List<TemplateC2B>();
+
         internal class TemplateMapModel
         {
             public TemplateMapModel(string PropertyName, TabPage TabPage, ToolStripMenuItem ToolStripMenuItem)
@@ -2313,9 +2317,6 @@ namespace papacy1
             }
         }
 
-        private string importCSVFilePath = string.Empty;
-        private string importType = string.Empty;
-
         private void 大小裝箱textBox_DoubleClick(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
@@ -2340,26 +2341,26 @@ namespace papacy1
 
                 string importFileName = dialog.SafeFileName.ToLower();
                 string csvData = string.Empty;
-                
+
                 if (importFileName.Contains("c1a"))
                 {
                     importType = "C1A";
                     // 解析 JSON 字串
                     csvData = ConvertToCSV(JsonConvert.DeserializeObject<List<TemplateC1A>>(jsonContent));
                 }
-                else if(importFileName.Contains("c1b"))
+                else if (importFileName.Contains("c1b"))
                 {
                     importType = "C1B";
 
                     // 解析 JSON 字串
                     csvData = ConvertToCSV(JsonConvert.DeserializeObject<List<TemplateC1B>>(jsonContent));
                 }
-                else if(importFileName.Contains("c2b"))
+                else if (importFileName.Contains("c2b"))
                 {
                     importType = "C2B";
 
                     // 解析 JSON 字串
-                    var c2bData = JsonConvert.DeserializeObject<List<TemplateC2B>>(jsonContent);
+                    csvData = ConvertToCSV(JsonConvert.DeserializeObject<List<TemplateC2B>>(jsonContent));
                 }
 
                 try
@@ -2403,6 +2404,51 @@ namespace papacy1
             return csvBuilder.ToString();
         }
 
+        static string ConvertToCSV(List<TemplateC2B> data)
+        {
+            StringBuilder csvBuilder = new StringBuilder();
+            var mainProperties = typeof(TemplateC2B).GetProperties()
+                                  .Where(x => x.PropertyType != typeof(List<TemplateC2B.Detail>)).ToList();
+
+            // 生成 CSV 表頭
+            var headers = mainProperties.Select(p => p.Name).ToList();
+            for (int i = 0; i < 24; i++)
+            {
+                headers.AddRange(new string[] { $"No{i}", $"Num{i}", $"GW{i}", $"NW{i}" });
+            }
+            csvBuilder.AppendLine(String.Join(",", headers));
+
+            // 生成每一行的數據
+            foreach (var item in data)
+            {
+                var row = new List<string>();
+
+                // 添加主屬性數據
+                row.AddRange(mainProperties.Select(p => p.GetValue(item, null)?.ToString() ?? ""));
+
+                // 添加明細數據，最多24組
+                for (int i = 0; i < 24; i++)
+                {
+                    if (i < item.明細.Count)
+                    {
+                        var detail = item.明細[i];
+                        row.Add(detail.No ?? "");
+                        row.Add(detail.Num ?? "");
+                        row.Add(detail.GW ?? "");
+                        row.Add(detail.NW ?? "");
+                    }
+                    else
+                    {
+                        row.AddRange(new string[] { "", "", "", "" });
+                    }
+                }
+
+                csvBuilder.AppendLine(String.Join(",", row));
+            }
+
+            return csvBuilder.ToString();
+        }
+
         private void 大小裝箱_PrintBtn_Click(object sender, EventArgs e)
         {
             DefaultSetting(importType);
@@ -2424,14 +2470,56 @@ namespace papacy1
 
             btFormat.PrintSetup.IdenticalCopiesOfLabel = 1;
 
-            TextFile tf = new TextFile(btFormat.DatabaseConnections[0].Name);
-            tf.FileName = importCSVFilePath;
+            SetDatabaseConnection(btFormat, importCSVFilePath);
 
-            btFormat.DatabaseConnections.SetDatabaseConnection(tf);
             btFormat.Print();
 
             btFormat.Close(Seagull.BarTender.Print.SaveOptions.DoNotSaveChanges);
             engine.Stop();
+        }
+
+        private Dictionary<string, string> GetSubStringValues<T>(T item, int index = -1)
+        {
+            var values = new Dictionary<string, string>();
+
+            Type itemType = typeof(T);
+            PropertyInfo[] properties = itemType.GetProperties();
+
+            foreach (var property in properties)
+            {
+                string propertyName = property.Name;
+                object propertyValue = property.GetValue(item);
+
+                if (propertyValue != null)
+                {
+                    string key = index >= 0 ? $"{propertyName}{index}" : propertyName;
+                    values[key] = propertyValue.ToString();
+                }
+            }
+
+            return values;
+        }
+
+        private void SetValuesToBtFormat(LabelFormatDocument btFormat, Dictionary<string, string> values)
+        {
+            foreach (var kvp in values)
+            {
+                btFormat.SubStrings[kvp.Key].Value = kvp.Value;
+            }
+        }
+
+        private void SetDatabaseConnection(LabelFormatDocument btFormat, string csvFilePath)
+        {
+            TextFile tf = new TextFile(btFormat.DatabaseConnections[0].Name);
+            tf.FileName = csvFilePath;
+            btFormat.DatabaseConnections.SetDatabaseConnection(tf);
+        }
+
+        private void ShowPrintPreview(LabelFormatDocument btFormat)
+        {
+            engine.Window.VisibleWindows = VisibleWindows.InteractiveDialogs;
+            btFormat.PrintPreview.ShowDialog();
+            btFormat.Close(Seagull.BarTender.Print.SaveOptions.DoNotSaveChanges);
         }
 
         private void 大小裝箱_PreviewBtn_Click(object sender, EventArgs e)
@@ -2455,16 +2543,11 @@ namespace papacy1
 
             btFormat.PrintSetup.IdenticalCopiesOfLabel = 1;
 
-            TextFile tf = new TextFile(btFormat.DatabaseConnections[0].Name);
-            tf.FileName = importCSVFilePath;
+            SetDatabaseConnection(btFormat, importCSVFilePath);
 
-            btFormat.DatabaseConnections.SetDatabaseConnection(tf);
-
-            engine.Window.VisibleWindows = VisibleWindows.InteractiveDialogs;
-            btFormat.PrintPreview.ShowDialog();
+            ShowPrintPreview(btFormat);
 
             btFormat.Close(Seagull.BarTender.Print.SaveOptions.DoNotSaveChanges);
-
             engine.Stop();
         }
     }
