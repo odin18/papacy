@@ -2164,6 +2164,11 @@ namespace papacy1
             copies = (int)PrintQuantitynumericUpDown7.Value;
         }
 
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            copies = (int)numericUpDown1.Value;
+        }
+
         /// <summary>
         /// 設定 Tab 顯示
         /// </summary>
@@ -2468,7 +2473,7 @@ namespace papacy1
 
             btFormat = engine.Documents.Open(tempPath, selectedPrinter);
 
-            btFormat.PrintSetup.IdenticalCopiesOfLabel = 1;
+            btFormat.PrintSetup.IdenticalCopiesOfLabel = copies;
 
             SetDatabaseConnection(btFormat, importCSVFilePath);
 
