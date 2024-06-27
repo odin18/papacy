@@ -2164,9 +2164,9 @@ namespace papacy1
             copies = (int)PrintQuantitynumericUpDown7.Value;
         }
 
-        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        private void 大小裝箱明細numericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            copies = (int)numericUpDown1.Value;
+            copies = (int)大小裝箱明細numericUpDown.Value;
         }
 
         /// <summary>
@@ -2352,6 +2352,9 @@ namespace papacy1
                     importType = "C1A";
                     // 解析 JSON 字串
                     csvData = ConvertToCSV(JsonConvert.DeserializeObject<List<TemplateC1A>>(jsonContent));
+
+                    dataGridView1.DataSource = JsonConvert.DeserializeObject<List<TemplateC1A>>(jsonContent);
+                    dataGridView1.Refresh();
                 }
                 else if (importFileName.Contains("c1b"))
                 {
@@ -2359,6 +2362,9 @@ namespace papacy1
 
                     // 解析 JSON 字串
                     csvData = ConvertToCSV(JsonConvert.DeserializeObject<List<TemplateC1B>>(jsonContent));
+
+                    dataGridView1.DataSource = JsonConvert.DeserializeObject<List<TemplateC1B>>(jsonContent);
+                    dataGridView1.Refresh();
                 }
                 else if (importFileName.Contains("c2b"))
                 {
@@ -2552,8 +2558,8 @@ namespace papacy1
 
             ShowPrintPreview(btFormat);
 
-            btFormat.Close(Seagull.BarTender.Print.SaveOptions.DoNotSaveChanges);
-            engine.Stop();
+            //btFormat.Close(Seagull.BarTender.Print.SaveOptions.DoNotSaveChanges);
+            //engine.Stop();
         }
     }
 }
