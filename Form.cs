@@ -2339,7 +2339,7 @@ namespace papacy1
                 // 讀取 JSON 檔案
                 string jsonContent;
 
-                using (StreamReader reader = new StreamReader(大小裝箱textBox.Text, Encoding.GetEncoding("Big5")))
+                using (StreamReader reader = new StreamReader(大小裝箱textBox.Text, Encoding.Default))
                 {
                     jsonContent = reader.ReadToEnd();
                 }
@@ -2352,9 +2352,6 @@ namespace papacy1
                     importType = "C1A";
                     // 解析 JSON 字串
                     csvData = ConvertToCSV(JsonConvert.DeserializeObject<List<TemplateC1A>>(jsonContent));
-
-                    dataGridView1.DataSource = JsonConvert.DeserializeObject<List<TemplateC1A>>(jsonContent);
-                    dataGridView1.Refresh();
                 }
                 else if (importFileName.Contains("c1b"))
                 {
@@ -2362,9 +2359,6 @@ namespace papacy1
 
                     // 解析 JSON 字串
                     csvData = ConvertToCSV(JsonConvert.DeserializeObject<List<TemplateC1B>>(jsonContent));
-
-                    dataGridView1.DataSource = JsonConvert.DeserializeObject<List<TemplateC1B>>(jsonContent);
-                    dataGridView1.Refresh();
                 }
                 else if (importFileName.Contains("c2b"))
                 {

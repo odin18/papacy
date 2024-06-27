@@ -4257,11 +4257,6 @@ namespace papacy1
             this.大小裝箱明細numericUpDown.Name = "大小裝箱明細numericUpDown";
             this.大小裝箱明細numericUpDown.Size = new System.Drawing.Size(75, 32);
             this.大小裝箱明細numericUpDown.TabIndex = 204;
-            this.大小裝箱明細numericUpDown.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
             this.大小裝箱明細numericUpDown.ValueChanged += new System.EventHandler(this.大小裝箱明細numericUpDown_ValueChanged);
             // 
             // label49

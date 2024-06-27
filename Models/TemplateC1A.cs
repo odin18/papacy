@@ -22,7 +22,7 @@ namespace papacy1.Models
 
         public string 定長 { get; set; }
 
-        public string 檢驗 { get; set; }
+        public string 檢驗員 { get; set; }
 
         public string 時間 { get; set; }
 
