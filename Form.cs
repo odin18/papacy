@@ -2339,7 +2339,7 @@ namespace papacy1
                 // 讀取 JSON 檔案
                 string jsonContent;
 
-                using (StreamReader reader = new StreamReader(大小裝箱textBox.Text, Encoding.Default))
+                using (StreamReader reader = new StreamReader(大小裝箱textBox.Text, Encoding.GetEncoding("Big5")))
                 {
                     jsonContent = reader.ReadToEnd();
                 }
