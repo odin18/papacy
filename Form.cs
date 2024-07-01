@@ -2551,9 +2551,6 @@ namespace papacy1
             SetDatabaseConnection(btFormat, importCSVFilePath);
 
             ShowPrintPreview(btFormat);
-
-            //btFormat.Close(Seagull.BarTender.Print.SaveOptions.DoNotSaveChanges);
-            //engine.Stop();
         }
     }
 }
