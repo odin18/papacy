@@ -120,8 +120,7 @@ namespace papacy1
             MD7_CBX_CNO.Text = "3";
 
             // 將 tabControl 的當前選定標籤頁設定為tabPage8
-            //tabControl.SelectedTab = tabPage8;
-            tabControl.SelectedTab = tabPage9;
+            tabControl.SelectedTab = tabPage8;
 
             // 每一次預設值會一直跑掉
             this.Width = defaultWidth;
@@ -141,7 +140,12 @@ namespace papacy1
                 {"大小裝箱明細",new TemplateMapModel("", tabPage9, 大小裝箱明細ToolStripMenuItem) }
             };
 
-            this.templateName_comboBox.Items.AddRange(templateNameMap.Keys.ToArray());
+            this.templateName_comboBox.Items.AddRange(
+                templateNameMap
+                    .Where(x => !string.IsNullOrEmpty(x.Value.PropertyName))
+                    .Select(x => x.Key)
+                    .ToArray()
+            );
             // 選擇模板設定的下拉跳預設值
             templateName_comboBox.SelectedIndex = 0;
         }
